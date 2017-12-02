@@ -6,8 +6,7 @@ const Error404 = (store) => (
     backgroundImage: 'url(/img/cat.jpg)',
     display: 'table',
     width: '100%',
-    height: 'calc(100% - 56px)',
-    minHeight: 'calc(100% - 56px)',
+    height: 'calc(100% - 3.5em)',
     boxShadow: 'inset 0 0 5rem rgba(0,0,0,.5)'
   }}>
     <div style={{

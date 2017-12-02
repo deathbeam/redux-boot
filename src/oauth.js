@@ -3,7 +3,6 @@ import Cookie from 'js-cookie'
 import {stringify} from 'qs'
 import config from './config'
 import { logout as logoutAction } from './redux/modules/auth'
-import { addAlert } from './redux/modules/app'
 
 const createToken = (response) => ({
   user: response.user,
@@ -187,8 +186,7 @@ async function wrapFailure (dispatch, promise) {
     const result = await promise
     return result
   } catch (error) {
-    dispatch(logoutAction())
-    dispatch(addAlert({ color: 'danger', message: error.message }))
+    dispatch(logoutAction(error))
     throw error
   }
 }

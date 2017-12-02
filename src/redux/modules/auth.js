@@ -1,6 +1,6 @@
 import { createAction, combineActions, handleActions } from 'redux-actions'
 import { createRoutine } from 'redux-routines'
-import client from '../../api-client'
+import oauth from '../../oauth'
 
 // Actions
 export const refreshRoutine = createRoutine('react-ui/auth/REFRESH')
@@ -34,7 +34,7 @@ export default handleActions({
 export const login = createAction(loginRoutine.TRIGGER, (payload) => async (dispatch) => {
   try {
     dispatch(loginRoutine.request())
-    const response = await client.wrapFailure(dispatch, client.login({
+    const response = await oauth.wrapFailure(dispatch, oauth.login({
       username: payload.username, password: payload.password
     }))
 
@@ -51,7 +51,7 @@ export const login = createAction(loginRoutine.TRIGGER, (payload) => async (disp
 export const refresh = createAction(refreshRoutine.TRIGGER, () => async (dispatch) => {
   try {
     dispatch(refreshRoutine.request())
-    const response = await client.refresh()
+    const response = await oauth.refresh()
     dispatch(refreshRoutine.success(response))
     return response
   } catch (e) {
@@ -61,11 +61,11 @@ export const refresh = createAction(refreshRoutine.TRIGGER, () => async (dispatc
   }
 })
 
-export const logout = createAction(logoutRoutine.TRIGGER, () => (dispatch) => {
+export const logout = createAction(logoutRoutine.TRIGGER, (payload) => (dispatch) => {
   dispatch(logoutRoutine.request())
 
-  if (client.logout()) {
-    dispatch({ type: 'LOGIN' })
+  if (oauth.logout()) {
+    dispatch({ type: 'HOME' })
     dispatch(logoutRoutine.success())
   } else {
     dispatch(logoutRoutine.failure())

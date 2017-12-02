@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import Layout from '../components/layout'
 
 const Home = (state) => (
@@ -8,6 +7,4 @@ const Home = (state) => (
   </Layout>
 )
 
-export default connect(
-  (state) => state
-)(Home)
+export default Home

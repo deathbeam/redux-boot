@@ -1,13 +1,16 @@
 import R from 'ramda'
-import { fetchCategories } from './modules/categories'
-import { visibilityChange as clientVisibilityChange } from './modules/client'
-import { showVisibilityChange, detailVisibilityChange } from './modules/eshop'
+import { refresh } from './modules/auth'
 
 const createThunk = (fns) => async (dispatch, getState) => R.reduce(
   (a, b) => a.then((r) => dispatch(b(getState().location.payload.slug))),
   Promise.resolve(),
   fns)
 
+const createRoute = (path, fns) => ({
+  path,
+  thunk: createThunk(R.prepend(refresh, fns || []))
+})
+
 export default {
-  HOME: '/'
+  HOME: createRoute('/')
 }

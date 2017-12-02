@@ -28,7 +28,7 @@ const UiBlock = () => (
       }
     `}</style>
     <ReduxBlockUi
-      message='Načítavam, počkajte prosím'
+      message='Loading, please wait'
       tag='div'
       block={/[\w/]+_REQUEST/}
       unblock={/[\w/]+_FULFILL/} />
