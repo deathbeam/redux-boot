@@ -1,7 +1,8 @@
 import React from 'react'
-import FontAwesome from 'react-fontawesome'
 import { NavLink as ActiveLink } from 'redux-first-router-link'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { faCogs } from '@fortawesome/fontawesome-free-solid'
 
 class Navigation extends React.Component {
   constructor (props) {
@@ -23,7 +24,7 @@ class Navigation extends React.Component {
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav navbar>
             <NavItem>
-              <NavLink tag={ActiveLink} to='/unknownpage'><FontAwesome name='gears' /> Broken link</NavLink>
+              <NavLink tag={ActiveLink} to='/unknownpage'><FontAwesomeIcon icon={faCogs} /> Broken link</NavLink>
             </NavItem>
           </Nav>
         </Collapse>

@@ -2,6 +2,19 @@
 
 React and Redux simple boilerplate
 
+## Local development
+
+To start local server, simply run
+
+```
+npm start
+```
+
+from console. Your app should be now running on `http://localhost:3000` and you
+will be able to see it from your web browser. To debug Redux actions, navigate
+to `http://remotedev.io/local/` and you will be able to see all your Redux
+actions.
+
 ## Publishing to GitHub pages
 
 Open your package.json and add a homepage field for your project:
@@ -44,3 +57,12 @@ Finally, make sure GitHub Pages option in your GitHub project settings is set to
 use the gh-pages branch:
 
 <img src="http://i.imgur.com/HUjEr9l.png" width="500" alt="gh-pages branch setting">
+
+After all above setup is done, simply run
+
+```
+npm run deploy
+```
+
+from console, enter user name and password and your website should be fully
+working and deployed to GitHub pages.

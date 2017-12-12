@@ -13,10 +13,7 @@ const configureStore = (history, initialState) => {
   // Create router enhancers
   const { reducer, middleware, enhancer } = connectRoutes(
     history,
-    routes,
-    {
-      title: (state) => state.app.title
-    }
+    routes
   )
 
   // Combine all reducers

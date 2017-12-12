@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet'
 import { NavLink } from 'redux-first-router-link'
 
 const Error404 = (store) => (
@@ -9,6 +10,9 @@ const Error404 = (store) => (
     height: 'calc(100% - 3.5em)',
     boxShadow: 'inset 0 0 5rem rgba(0,0,0,.5)'
   }}>
+    <Helmet>
+      <title>404</title>
+    </Helmet>
     <div style={{
       display: 'table-cell',
       verticalAlign: 'middle'
