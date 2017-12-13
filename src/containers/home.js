@@ -1,22 +1,9 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
-import { Alert } from 'reactstrap'
+import Commit from '../components/commit'
 import Layout from '../components/layout'
 import { latestCommitSelector } from '../redux/modules/git'
-
-const renderCommit = (c) => {
-  if (!c || !c.commit) return (<noscript />)
-  console.log(c)
-
-  return (
-    <Alert className='text-center' color='info'>
-      <b>Latest commit:</b>{' '}
-      <a href={c.html_url}>{c.commit.message}</a> by {c.commit.author.name}{' '}
-      <span className='text-muted'>{c.commit.committer.date}</span>
-    </Alert>
-  )
-}
 
 const Home = ({ commit }) => (
   <Layout>
@@ -24,7 +11,7 @@ const Home = ({ commit }) => (
       <title>Home</title>
     </Helmet>
     <h1>Welcome</h1>
-    <div className='text-center'>{renderCommit(commit)}</div>
+    <Commit {...commit} />
   </Layout>
 )
 
