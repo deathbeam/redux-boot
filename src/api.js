@@ -1,7 +1,6 @@
 import R from 'ramda'
 import Cookie from 'js-cookie'
 import {stringify} from 'qs'
-import { logout as logoutAction } from './redux/modules/auth'
 
 const createToken = (response) => ({
   user: response.user,
@@ -69,18 +68,18 @@ function logout () {
 }
 
 /**
- * Wrap promise, in case of failure, logout user
+ * Wrap promise, in case of failure run error action
  *
  * @param {object} dispatch redux dispatcher
  * @param {Promise} promise js promise
  * @return {Promise}
  */
-async function wrapFailure (dispatch, promise) {
+async function wrapFailure (dispatch, promise, errorAction) {
   try {
     const result = await promise
     return result
   } catch (error) {
-    dispatch(logoutAction(error))
+    if (errorAction) dispatch(errorAction(error))
     throw error
   }
 }

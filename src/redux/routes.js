@@ -1,5 +1,5 @@
 import R from 'ramda'
-import { refresh } from './modules/auth'
+import { getCommits } from './modules/git'
 
 const createThunk = (fns) => async (dispatch, getState) => R.reduce(
   (a, b) => a.then((r) => dispatch(b(getState().location.payload.slug))),
@@ -8,9 +8,9 @@ const createThunk = (fns) => async (dispatch, getState) => R.reduce(
 
 const createRoute = (path, fns) => ({
   path,
-  thunk: createThunk(R.prepend(refresh, fns || []))
+  thunk: createThunk(fns || [])
 })
 
 export default {
-  HOME: createRoute('/')
+  HOME: createRoute('/', [ getCommits ])
 }
