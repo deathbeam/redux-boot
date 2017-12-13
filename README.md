@@ -17,35 +17,28 @@ actions.
 
 ## Publishing to GitHub pages
 
-Open your package.json and add a homepage field for your project:
-
-```diff
-{
-  "name": "redux-boot",
-  "version": "0.0.1",
--  "homepage": "https://deathbeam.github.io/redux-boot",
-+  "homepage": "https://myusername.github.io/my-app",
-```
-or for a GitHub user page:
-```diff
-{
-  "name": "redux-boot",
-  "version": "0.0.1",
--  "homepage": "https://deathbeam.github.io/redux-boot",
-+  "homepage": "https://myusername.github.io",
-```
+The deployement to GitHub pages is done automatically using [Travis CI GitHub
+pages deployement](https://docs.travis-ci.com/user/deployment/pages).
+First read the guide and set up GITHUB_TOKEN so the travis deployement will
+work.
 
 If you are deploying to a GitHub user page instead of a project page you'll need
 to make two additional modifications:
 
 First, change your repository's source branch to be any branch other than
 master.
-Additionally, tweak your package.json scripts to push deployments to master:
+Additionally, tweak your .travis.yml scripts to push deployments to master:
 ```diff
-"scripts": {
-  "predeploy": "npm run build",
--  "deploy": "gh-pages -d build",
-+  "deploy": "gh-pages -b master -d build",
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+  local_dir: "build"
+-  target_branch: "gh-pages"
++  target_branch: master
+  on:
+-    branch: master
++    branch: "my-branch"
 ```
 
 Note that if you are setting up a Project Pages site and not using a custom
@@ -58,11 +51,5 @@ use the gh-pages branch:
 
 <img src="http://i.imgur.com/HUjEr9l.png" width="500" alt="gh-pages branch setting">
 
-After all above setup is done, simply run
-
-```
-npm run deploy
-```
-
-from console, enter user name and password and your website should be fully
-working and deployed to GitHub pages.
+After all above setup is done, Travis CI should automatically deploy your site
+after you push commit.

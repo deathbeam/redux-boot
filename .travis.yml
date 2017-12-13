@@ -2,3 +2,11 @@ language: node_js
 node_js:
   - "iojs"
   - "7"
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+  local_dir: "build"
+  target_branch: "gh-pages"
+  on:
+    branch: master

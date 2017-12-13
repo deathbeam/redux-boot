@@ -1,7 +1,6 @@
 {
   "name": "redux-boot",
   "version": "0.0.1",
-  "homepage": "https://deathbeam.github.io/redux-boot",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome": "^1.0.1",
@@ -30,14 +29,11 @@
     "eslint": "^4.5.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-react": "^7.3.0",
-    "gh-pages": "^1.1.0",
     "react-scripts": "1.0.12",
     "remote-redux-devtools": "^0.5.12",
     "standard": "^10.0.3"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "standard && react-scripts test --env=jsdom",
