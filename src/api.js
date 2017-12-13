@@ -1,7 +1,6 @@
 import R from 'ramda'
 import Cookie from 'js-cookie'
 import {stringify} from 'qs'
-import config from './config'
 import { logout as logoutAction } from './redux/modules/auth'
 
 const createToken = (response) => ({
@@ -70,111 +69,6 @@ function logout () {
 }
 
 /**
- * Logins user
- *
- * @param {object} object containing username and password
- * @return {Promise}
- */
-async function login ({username, password}) {
-  logout()
-
-  const query = {
-    username,
-    password,
-    grant_type: 'password',
-    scope: 'read'
-  }
-
-  const response = await fetch(`oauth/token?${stringify(query)}`, {
-    method: 'POST',
-    headers: {
-      authorization: 'Basic c2NhZmZvbGQtY2xpZW50OnNlY3JldA=='
-    }
-  })
-
-  const newToken = createToken({
-    ...response,
-    user: username
-  })
-  setToken(newToken)
-  return newToken
-}
-
-/**
- * Re-logs using refresh token
- *
- * @return {Promise}
- */
-async function refresh () {
-  const token = getToken()
-
-  if (!token) {
-    throw new Error('No token found')
-  }
-
-  logout()
-
-  const query = {
-    grant_type: 'refresh_token',
-    refresh_token: token.refreshToken
-  }
-
-  const response = await fetch(`oauth/token?${stringify(query)}`, {
-    crossDomain: true,
-    method: 'POST',
-    headers: {
-      authorization: 'Basic c2NhZmZvbGQtY2xpZW50OnNlY3JldA=='
-    }
-  })
-
-  const newToken = createToken({
-    ...response,
-    user: token.user
-  })
-  setToken(newToken)
-  return token
-}
-
-/**
- * Fetch data, injecting oauth authorization in process
- *
- * @param {string} url url
- * @param {object} options fetch options
- * @return {Promise}
- */
-async function fetch (url, options) {
-  const base = `http://${config.api.host}:${config.api.port}/${config.api.suffix ? config.api.suffix + '/' : ''}`
-  const correctedOptions = injectBaseHeaders(options)
-  const correctedUrl = `${base}${url}`
-  const buildRequest = () => {
-    const accessToken = getAccessToken()
-    return window.fetch(injectTokenToUrl(correctedUrl, accessToken), correctedOptions)
-  }
-
-  let response = await buildRequest()
-
-  if (!response.ok) {
-    if (response.status === 401 && !!getRefreshToken()) {
-      const refreshResponse = await refresh()
-      console.log(refreshResponse)
-      response = await buildRequest()
-    } else {
-      throw new Error(response.statusText)
-    }
-  }
-
-  const headers = response.headers.get('Content-Type')
-  const isJson = headers && R.contains('json', headers)
-  response = isJson ? await response.json() : await response.text()
-
-  if (response.error) {
-    throw new Error(response.error)
-  }
-
-  return response
-}
-
-/**
  * Wrap promise, in case of failure, logout user
  *
  * @param {object} dispatch redux dispatcher
@@ -191,4 +85,110 @@ async function wrapFailure (dispatch, promise) {
   }
 }
 
-export default { login, logout, refresh, fetch, wrapFailure }
+export default (base) => {
+  /**
+   * Logins user
+   *
+   * @param {object} object containing username and password
+   * @return {Promise}
+   */
+  async function login ({username, password}) {
+    logout()
+
+    const query = {
+      username,
+      password,
+      grant_type: 'password',
+      scope: 'read'
+    }
+
+    const response = await fetch(`oauth/token?${stringify(query)}`, {
+      method: 'POST',
+      headers: {
+        authorization: 'Basic c2NhZmZvbGQtY2xpZW50OnNlY3JldA=='
+      }
+    })
+
+    const newToken = createToken({
+      ...response,
+      user: username
+    })
+    setToken(newToken)
+    return newToken
+  }
+
+  /**
+   * Re-logs using refresh token
+   *
+   * @return {Promise}
+   */
+  async function refresh () {
+    const token = getToken()
+
+    if (!token) {
+      throw new Error('No token found')
+    }
+
+    logout()
+
+    const query = {
+      grant_type: 'refresh_token',
+      refresh_token: token.refreshToken
+    }
+
+    const response = await fetch(`oauth/token?${stringify(query)}`, {
+      crossDomain: true,
+      method: 'POST',
+      headers: {
+        authorization: 'Basic c2NhZmZvbGQtY2xpZW50OnNlY3JldA=='
+      }
+    })
+
+    const newToken = createToken({
+      ...response,
+      user: token.user
+    })
+    setToken(newToken)
+    return token
+  }
+
+  /**
+   * Fetch data, injecting oauth authorization in process
+   *
+   * @param {string} url url
+   * @param {object} options fetch options
+   * @return {Promise}
+   */
+  async function fetch (url, options) {
+    const correctedOptions = injectBaseHeaders(options)
+    const correctedUrl = `${base}${url}`
+    const buildRequest = () => {
+      const accessToken = getAccessToken()
+      return window.fetch(injectTokenToUrl(correctedUrl, accessToken), correctedOptions)
+    }
+
+    let response = await buildRequest()
+
+    if (!response.ok) {
+      if (response.status === 401 && !!getRefreshToken()) {
+        const refreshResponse = await refresh()
+        console.log(refreshResponse)
+        response = await buildRequest()
+      } else {
+        throw new Error(response.statusText)
+      }
+    }
+
+    const headers = response.headers.get('Content-Type')
+    const isJson = headers && R.contains('json', headers)
+    response = isJson ? await response.json() : await response.text()
+
+    if (response.error) {
+      throw new Error(response.error)
+    }
+
+    return response
+  }
+
+  return { login, logout, refresh, fetch, wrapFailure }
+}
