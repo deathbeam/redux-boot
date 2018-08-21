@@ -15,7 +15,7 @@
     "react-block-ui": "^1.0.2",
     "react-dom": "^15.6.1",
     "react-helmet": "^5.2.0",
-    "react-redux": "^5.0.6",
+    "react-redux": "^5.0.7",
     "react-transition-group": "^1.2.0",
     "reactstrap": "^5.0.0-alpha.3",
     "redux": "^3.7.2",
