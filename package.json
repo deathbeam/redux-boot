@@ -10,7 +10,7 @@
     "history": "^4.7.2",
     "js-cookie": "^2.1.4",
     "qs": "^6.5.0",
-    "ramda": "^0.24.1",
+    "ramda": "^0.25.0",
     "react": "^15.6.1",
     "react-block-ui": "^1.0.2",
     "react-dom": "^15.6.1",
