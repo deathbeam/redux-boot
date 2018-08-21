@@ -5,7 +5,7 @@
   "dependencies": {
     "@fortawesome/fontawesome": "^1.0.1",
     "@fortawesome/fontawesome-free-solid": "^5.0.1",
-    "@fortawesome/react-fontawesome": "0.0.16",
+    "@fortawesome/react-fontawesome": "0.1.2",
     "bootstrap": "^4.0.0-beta",
     "history": "^4.7.2",
     "js-cookie": "^2.1.4",
