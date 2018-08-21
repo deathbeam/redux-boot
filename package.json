@@ -30,7 +30,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-react": "^7.3.0",
     "react-scripts": "1.0.12",
-    "remote-redux-devtools": "^0.5.12",
+    "remote-redux-devtools": "^0.5.13",
     "standard": "^10.0.3"
   },
   "scripts": {
