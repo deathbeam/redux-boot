@@ -22,7 +22,7 @@
     "redux-actions": "^2.2.1",
     "redux-first-router": "0.0.16-next",
     "redux-first-router-link": "^1.4.1",
-    "redux-routines": "^2.0.0-0",
+    "redux-routines": "^3.0.0",
     "reselect": "^3.0.1"
   },
   "devDependencies": {
