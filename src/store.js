@@ -49,17 +49,19 @@ function createThunkMiddleware() {
     return result;
   }
 
-  return ({ dispatch, getState }) => (next) => (action) => {
-    if (typeof action === "function") {
-      return wrapAsync(dispatch, getState, action);
-    }
+  return ({ dispatch, getState }) =>
+    (next) =>
+    (action) => {
+      if (typeof action === "function") {
+        return wrapAsync(dispatch, getState, action);
+      }
 
-    if (action && typeof action.payload === "function") {
-      return wrapAsync(dispatch, getState, action.payload);
-    }
+      if (action && typeof action.payload === "function") {
+        return wrapAsync(dispatch, getState, action.payload);
+      }
 
-    return next(action);
-  };
+      return next(action);
+    };
 }
 
 /**
