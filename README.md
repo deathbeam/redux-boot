@@ -28,6 +28,7 @@ to make two additional modifications:
 First, change your repository's source branch to be any branch other than
 master.
 Additionally, tweak your .travis.yml scripts to push deployments to master:
+
 ```diff
 deploy:
   provider: pages

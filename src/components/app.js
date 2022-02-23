@@ -1,24 +1,21 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-import React from 'react'
-import { connect } from 'react-redux'
-import Navigation from './navigation'
-import UiBlock from './ui-block'
+import "bootstrap/dist/css/bootstrap.min.css";
+import React from "react";
+import { connect } from "react-redux";
+import { Routes, Route } from "react-router-dom";
+import Loader from "./loader";
+import Home from "../routes/home";
+import Error404 from "../routes/404";
 
-const App = ({ title, component, payload }) => {
-  const Component = require(`../containers/${component}`).default
-
-  return (
-    <div>
-      <UiBlock />
-      <Navigation />
-      <Component {...payload} />
+const App = ({ loading }) => (
+  <div style={{ height: "100%" }}>
+    <Loader loading={loading > 0} />
+    <div class="container">
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="*" element={<Error404 />} />
+      </Routes>
     </div>
-  )
-}
+  </div>
+);
 
-export default connect(
-  (state, props) => ({
-    ...props,
-    ...state.app
-  })
-)(App)
+export default connect((state) => ({ ...state.app }))(App);
